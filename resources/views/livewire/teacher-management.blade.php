@@ -131,7 +131,7 @@
                             @checked($selectAllOnPage)
                         >
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">TMIS ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">TTIS ID</th>
                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">কলেজ কোড</th>
                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">শিক্ষকের নাম</th>
                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">পদবী ও বিষয়</th>
@@ -156,7 +156,7 @@
                             >
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-slate-100">
-                            {{ $teacher->tmis_id ?? 'N/A' }}
+                            {{ $teacher->ttis_id ?? 'N/A' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-slate-300">
                             {{ $teacher->college_code ?? '-' }}
