@@ -85,7 +85,7 @@ class IctTrainingSummary extends Component
 
     private function teachersWithIctQuery(): Builder
     {
-        return Teacher::select('id', 'college_code', 'college_name', 'name', 'ict_training_name', 'other_training_name', 'training_institute')
+        return Teacher::select('id', 'college_code', 'college_name', 'name', 'subject', 'ict_training_name', 'other_training_name', 'training_institute')
             ->whereNotNull('ict_training_name')
             ->where('ict_training_name', '!=', '')
             ->orderBy('college_code')

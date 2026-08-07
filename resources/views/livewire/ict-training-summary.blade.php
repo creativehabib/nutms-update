@@ -69,7 +69,7 @@
                             <!-- কলেজ হেডার রো -->
                             <tr class="bg-gray-100 dark:bg-slate-800 print:bg-gray-200">
                                 <td colspan="5" class="px-4 py-2 font-bold text-indigo-800 dark:text-indigo-300 border text-center college-header text-base">
-                                    কলেজ কোড: {{ $collegeCode }} - {{ $collegeTeachers->first()->college_name ?? 'নাম উল্লেখ নেই' }}
+                                    {{ $collegeCode }} - {{ $collegeTeachers->first()->college_name ?? 'নাম উল্লেখ নেই' }}
                                 </td>
                             </tr>
 
@@ -78,7 +78,17 @@
                             @foreach ($collegeTeachers as $teacher)
                                 <tr class="hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors">
                                     <td class="px-4 py-3 text-center text-gray-900 dark:text-slate-100 border">{{ $rowNumber++ }}</td>
-                                    <td class="px-4 py-3 font-bold text-gray-800 dark:text-slate-200 border">{{ $teacher->name }}</td>
+                                    <flux:table.cell>
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-zinc-900 dark:text-zinc-100">
+                                                {{ $teacher?->name ?: __('No teacher Name') }}
+                                            </span>
+                                            <div class="flex items-center gap-1.5 mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                                                <flux:icon.bookmark variant="micro" class="size-3.5" />
+                                                <span class="truncate max-w-[250px]">{{ $teacher?->subject ?: __('No Subject') }} </span>
+                                            </div>
+                                        </div>
+                                    </flux:table.cell>
                                     <td class="px-4 py-3 text-gray-700 dark:text-slate-300 border">{{ $teacher->ict_training_name ?: 'উল্লেখ নেই' }}</td>
                                     <td class="px-4 py-3 text-gray-700 dark:text-slate-300 border">{{ $teacher->other_training_name ?: 'উল্লেখ নেই' }}</td>
                                     <td class="px-4 py-3 text-gray-600 dark:text-slate-400 border text-xs">{{ $teacher->training_institute ?? 'উল্লেখ নেই' }}</td>
