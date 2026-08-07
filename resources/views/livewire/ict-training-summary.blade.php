@@ -84,7 +84,7 @@
                                                 {{ $teacher?->name ?: __('No teacher Name') }}
                                             </span>
                                             <div class="flex items-center gap-1.5 mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-                                                <flux:icon.bookmark variant="micro" class="size-3.5" />
+                                                <flux:icon.book-open variant="micro" class="size-3.5" />
                                                 <span class="truncate max-w-[250px]">{{ $teacher?->subject ?: __('No Subject') }} </span>
                                             </div>
                                         </div>
