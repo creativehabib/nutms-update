@@ -132,7 +132,6 @@
                         >
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">TTIS ID</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">কলেজ কোড</th>
                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">শিক্ষকের নাম</th>
                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">পদবী ও বিষয়</th>
                     <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">ল্যাব ও কম্পিউটার</th>
@@ -158,12 +157,18 @@
                         <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-slate-100">
                             {{ $teacher->ttis_id ?? 'N/A' }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-slate-300">
-                            {{ $teacher->college_code ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-slate-100">
-                            {{ $teacher->name }}
-                        </td>
+
+                        <flux:table.cell>
+                            <div class="flex flex-col">
+                                    <span class="font-semibold text-zinc-900 dark:text-zinc-100">
+                                        {{ $teacher?->name ?: __('No teacher Name') }}
+                                    </span>
+                                <div class="flex items-center gap-1.5 mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                                    <flux:icon.building-library variant="micro" class="size-3.5" />
+                                    <span class="truncate max-w-[250px]">{{ $teacher?->college_name ?: __('No college') }} ({{$teacher?->college_code ?? '-'}})</span>
+                                </div>
+                            </div>
+                        </flux:table.cell>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="block text-gray-800 dark:text-slate-200 font-semibold">{{ $teacher->designation }}</span>
                             <span class="block text-gray-500 dark:text-slate-400 text-xs">{{ $teacher->subject }}</span>
