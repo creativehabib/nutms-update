@@ -127,7 +127,7 @@
                             <!-- কলেজ হেডার রো -->
                             <tr class="bg-gray-100 dark:bg-slate-800 print:bg-gray-200">
                                 <td colspan="7" class="px-4 py-2 font-bold text-red-800 dark:text-red-300 border text-center college-header text-base">
-                                    কলেজ কোড: {{ $collegeCode }} - {{ $collegeTeachers->first()->college_name ?? 'নাম উল্লেখ নেই' }}
+                                   {{ $collegeCode }} - {{ $collegeTeachers->first()->college_name ?? 'নাম উল্লেখ নেই' }}
                                 </td>
                             </tr>
 
