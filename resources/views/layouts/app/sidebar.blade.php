@@ -25,7 +25,7 @@
                 </flux:sidebar.item>
 
                 <flux:sidebar.item icon="academic-cap" :href="route('ict.summary')" :current="request()->routeIs('ict.summary')" wire:navigate>
-                    {{ __('ICT Training Summary') }}
+                    {{ __('Training Summary') }}
                 </flux:sidebar.item>
 
             </flux:sidebar.nav>

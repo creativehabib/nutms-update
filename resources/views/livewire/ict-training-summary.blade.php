@@ -51,7 +51,7 @@
             <!-- আইসিটি ট্রেনিং থাকা শিক্ষকদের তালিকা -->
             @if ($activeTab === 'with_ict')
             <div>
-                <h2 class="text-xl font-bold text-gray-800 dark:text-slate-200 mb-4 text-center">আইসিটি (ICT) ট্রেনিং প্রাপ্ত শিক্ষকদের তালিকা</h2>
+                <h2 class="text-xl font-bold text-gray-800 dark:text-slate-200 mb-4 text-center">প্রশিক্ষণ প্রাপ্ত শিক্ষকদের তালিকা</h2>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 print-table border border-gray-300 dark:border-slate-600">
                         <thead class="bg-gray-800 dark:bg-slate-950 text-white print:bg-gray-200 print:text-black">
@@ -107,7 +107,7 @@
 
             <!-- আইসিটি ট্রেনিং না থাকা শিক্ষকদের তালিকা -->
             <div>
-                <h2 class="text-xl font-bold text-gray-800 dark:text-slate-200 mb-4 text-center">আইসিটি (ICT) ট্রেনিং বিহীন শিক্ষকদের তালিকা</h2>
+                <h2 class="text-xl font-bold text-gray-800 dark:text-slate-200 mb-4 text-center">প্রশিক্ষণ বিহীন শিক্ষকদের তালিকা</h2>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 print-table border border-gray-300 dark:border-slate-600">
                         <thead class="bg-gray-800 dark:bg-slate-950 text-white print:bg-gray-200 print:text-black">
