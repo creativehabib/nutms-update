@@ -23,12 +23,12 @@
             <div class="flex flex-wrap gap-2">
                 <button wire:click="showTab('with_ict')"
                         class="px-4 py-2 rounded-md font-semibold text-sm transition border border-gray-300 dark:border-slate-600 shadow-sm {{ $activeTab === 'with_ict' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700' }}">
-                    আইসিটি ট্রেনিং প্রাপ্ত শিক্ষক
+                    প্রশিক্ষণ প্রাপ্ত শিক্ষক
                 </button>
 
                 <button wire:click="showTab('without_ict')"
                         class="px-4 py-2 rounded-md font-semibold text-sm transition border border-gray-300 dark:border-slate-600 shadow-sm {{ $activeTab === 'without_ict' ? 'bg-red-600 text-white' : 'bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700' }}">
-                    আইসিটি ট্রেনিং বিহীন শিক্ষক
+                    প্রশিক্ষণ বিহীন শিক্ষক
                 </button>
             </div>
 
