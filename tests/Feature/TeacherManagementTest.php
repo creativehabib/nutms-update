@@ -1,8 +1,10 @@
 <?php
 
+use App\Exports\SummaryExport;
 use App\Livewire\TeacherManagement;
 use App\Models\Teacher;
 use Livewire\Livewire;
+use Maatwebsite\Excel\Facades\Excel;
 
 it('renders a responsive edit form with a blurred backdrop', function () {
     Livewire::test(TeacherManagement::class)
@@ -22,6 +24,69 @@ it('shows the distinct college count beside the teacher count', function () {
     Livewire::test(TeacherManagement::class)
         ->assertSee('মোট 3 জন শিক্ষক')
         ->assertSee('মোট 2টি কলেজ');
+});
+
+it('exports every active teacher field to an Excel spreadsheet', function () {
+    Excel::fake();
+
+    Teacher::query()->create([
+        'college_code' => '1001',
+        'college_name' => 'Export College',
+        'tmis_id' => 'TMIS-1001',
+        'ttis_id' => 'TTIS-1001',
+        'name' => 'Export Teacher',
+        'designation' => 'Lecturer',
+        'subject' => 'Accounting',
+        'teacher_level' => 'Degree',
+        'employment_type' => 'Permanent',
+        'has_training' => 'Yes',
+        'ict_training_name' => 'Digital Content',
+        'ict_training_duration' => '10 days',
+        'other_training_name' => 'Management',
+        'other_training_duration' => '5 days',
+        'training_institute' => 'NAEM',
+        'training_year' => '2026',
+        'has_computer_lab' => 'Yes',
+        'computer_count' => 25,
+        'mobile_number' => '01700000000',
+        'email' => 'teacher@example.com',
+    ]);
+
+    $trashedTeacher = Teacher::query()->create(['name' => 'Trashed Teacher']);
+    $trashedTeacher->delete();
+
+    Livewire::test(TeacherManagement::class)
+        ->assertSee('ডেটা এক্সপোর্ট')
+        ->call('exportTeachers');
+
+    Excel::assertDownloaded('teachers.xlsx', function (SummaryExport $export): bool {
+        expect($export->headings())->toHaveCount(21)
+            ->and($export->array())->toBe([[
+                1,
+                '1001',
+                'Export College',
+                'TMIS-1001',
+                'TTIS-1001',
+                'Export Teacher',
+                'Lecturer',
+                'Accounting',
+                'Degree',
+                'Permanent',
+                'Yes',
+                'Digital Content',
+                '10 days',
+                'Management',
+                '5 days',
+                'NAEM',
+                '2026',
+                'Yes',
+                25,
+                '01700000000',
+                'teacher@example.com',
+            ]]);
+
+        return true;
+    });
 });
 
 it('keeps every row checkbox checked when selecting the current page', function () {
