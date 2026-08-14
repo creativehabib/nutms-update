@@ -368,7 +368,7 @@ class TeacherManagement extends Component
 
         // ড্রপডাউনের জন্য ডেটাবেস থেকে ইউনিক সাবজেক্ট এবং কলেজ কোড বের করা
         $subjects = Teacher::select('subject')->distinct()->whereNotNull('subject')->pluck('subject');
-        $collegeCodes = Teacher::select('college_code')->distinct()->whereNotNull('college_code')->pluck('college_code');
+        $collegeCodes = Teacher::select('college_code')->distinct()->whereNotNull('college_code')->pluck('college_code')->sort(SORT_NATURAL)->values();
 
         return view('livewire.teacher-management', [
             'teachers' => $query->latest()->paginate(8), // পেজিনেশন লিমিট ৮ রাখা হলো (আপনার দেওয়া কোড অনুযায়ী)
