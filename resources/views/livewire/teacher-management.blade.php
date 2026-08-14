@@ -7,7 +7,7 @@
 
     <div class="bg-white dark:bg-slate-900 shadow-md rounded-lg overflow-hidden">
 
-        <!-- টপবার: সার্চ, ফিল্টার এবং ইম্পোর্ট বাটন -->
+        <!-- টপবার: সার্চ, ফিল্টার, ইম্পোর্ট এবং এক্সপোর্ট বাটন -->
         <div class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950/80 p-4 sm:p-5">
             <div class="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -74,7 +74,7 @@
                         </select>
                     </div>
 
-                <!-- ইম্পোর্ট বাটন -->
+                <!-- ডেটা অ্যাকশন বাটন -->
                 <div class="flex flex-col gap-2 sm:flex-row">
                     <button
                         type="button"
@@ -89,6 +89,17 @@
                     >
                         <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16V4m0 0L7 9m5-5 5 5M5 20h14"></path></svg>
                         ডেটা ইম্পোর্ট
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="exportTeachers"
+                        wire:loading.attr="disabled"
+                        wire:target="exportTeachers"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-emerald-600 bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:cursor-wait disabled:opacity-60 lg:w-auto"
+                    >
+                        <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"></path></svg>
+                        <span wire:loading.remove wire:target="exportTeachers">ডেটা এক্সপোর্ট</span>
+                        <span wire:loading wire:target="exportTeachers">এক্সপোর্ট হচ্ছে...</span>
                     </button>
                 </div>
             </div>

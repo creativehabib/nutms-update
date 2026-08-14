@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Exports\SummaryExport;
 use App\Models\Teacher;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
@@ -11,6 +12,8 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class TeacherManagement extends Component
 {
@@ -355,6 +358,66 @@ class TeacherManagement extends Component
             // মডাল বন্ধ করার ইভেন্ট ফায়ার
             $this->dispatch('close-edit-modal');
         }
+    }
+
+    public function exportTeachers(): BinaryFileResponse
+    {
+        $rows = Teacher::query()
+            ->orderBy('college_code')
+            ->orderBy('name')
+            ->orderBy('id')
+            ->get()
+            ->values()
+            ->map(fn (Teacher $teacher, int $index): array => [
+                $index + 1,
+                $teacher->college_code ?? '',
+                $teacher->college_name ?? '',
+                $teacher->tmis_id ?? '',
+                $teacher->ttis_id ?? '',
+                $teacher->name ?? '',
+                $teacher->designation ?? '',
+                $teacher->subject ?? '',
+                $teacher->teacher_level ?? '',
+                $teacher->employment_type ?? '',
+                $teacher->has_training ?? '',
+                $teacher->ict_training_name ?? '',
+                $teacher->ict_training_duration ?? '',
+                $teacher->other_training_name ?? '',
+                $teacher->other_training_duration ?? '',
+                $teacher->training_institute ?? '',
+                $teacher->training_year ?? '',
+                $teacher->has_computer_lab ?? '',
+                $teacher->computer_count ?? '',
+                $teacher->mobile_number ?? '',
+                $teacher->email ?? '',
+            ])
+            ->all();
+
+        $headings = [
+            'ক্রমিক নং',
+            'কলেজ কোড',
+            'কলেজের নাম',
+            'TMIS ID',
+            'TTIS ID',
+            'শিক্ষকের নাম',
+            'পদবি',
+            'বিষয়',
+            'শিক্ষক স্তর',
+            'চাকরির ধরন',
+            'প্রশিক্ষণ আছে',
+            'আইসিটি প্রশিক্ষণের নাম',
+            'আইসিটি প্রশিক্ষণের সময়কাল',
+            'অন্যান্য প্রশিক্ষণের নাম',
+            'অন্যান্য প্রশিক্ষণের সময়কাল',
+            'প্রশিক্ষণ প্রতিষ্ঠান',
+            'প্রশিক্ষণের বছর',
+            'কম্পিউটার ল্যাব আছে',
+            'কম্পিউটার সংখ্যা',
+            'মোবাইল নম্বর',
+            'ইমেইল',
+        ];
+
+        return Excel::download(new SummaryExport($rows, $headings), 'teachers.xlsx');
     }
 
     public function render(): View
