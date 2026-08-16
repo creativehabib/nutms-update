@@ -10,7 +10,7 @@
                         প্রতিষ্ঠান ও শিক্ষক তথ্যচিত্র
                     </div>
                     <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">ড্যাশবোর্ড রিপোর্ট</h1>
-                    <p class="mt-2 max-w-2xl text-sm text-indigo-100 sm:text-base">কম্পিউটার ল্যাব এবং আইসিটি ট্রেনিংয়ের বর্তমান অবস্থা এক নজরে দেখুন।</p>
+                    <p class="mt-2 max-w-2xl text-sm text-indigo-100 sm:text-base">কম্পিউটার ল্যাব এবং ট্রেনিংয়ের বর্তমান অবস্থা এক নজরে দেখুন।</p>
                 </div>
 
                 @if ($report['lastUpdatedAt'])
