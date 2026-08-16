@@ -56,7 +56,7 @@
                     <span class="text-xs font-medium text-violet-600 dark:text-violet-400">ট্রেনিং অগ্রগতি</span>
                 </div>
                 <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['ictTrainingCoverage'], 1) }}%</p>
-                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">আইসিটি ট্রেনিং কভারেজ</p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">ট্রেনিং কভারেজ</p>
             </div>
         </div>
 
@@ -97,7 +97,7 @@
             <section aria-labelledby="training-report-heading" class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
                 <div class="flex items-start justify-between gap-4">
                     <div>
-                        <flux:heading id="training-report-heading" size="lg">আইসিটি ট্রেনিং রিপোর্ট</flux:heading>
+                        <flux:heading id="training-report-heading" size="lg">ট্রেনিং রিপোর্ট</flux:heading>
                         <flux:text class="mt-1">শিক্ষকদের প্রশিক্ষণ অগ্রগতির তুলনামূলক চিত্র</flux:text>
                     </div>
                     <flux:button :href="route('ict.summary')" variant="ghost" size="sm" icon-trailing="arrow-up-right" wire:navigate>বিস্তারিত</flux:button>
@@ -106,7 +106,7 @@
                 <div class="mt-7 flex items-end justify-between gap-4">
                     <div>
                         <p class="text-4xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['ictTrainingCoverage'], 1) }}%</p>
-                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">শিক্ষক আইসিটি ট্রেনিং পেয়েছেন</p>
+                        <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">শিক্ষক ট্রেনিং পেয়েছেন</p>
                     </div>
                     <div class="rounded-full bg-sky-50 px-3 py-1 text-sm font-semibold text-sky-700 dark:bg-sky-950 dark:text-sky-300">{{ number_format($report['teachersWithIctTraining']) }} / {{ number_format($report['totalTeachers']) }}</div>
                 </div>
