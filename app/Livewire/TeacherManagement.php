@@ -447,11 +447,11 @@ class TeacherManagement extends Component
             ? Teacher::onlyTrashed()
             : Teacher::query();
 
-        // সার্চ (নাম, TMIS ID অথবা মোবাইল নাম্বার)
+        // সার্চ (নাম, TTIS ID অথবা মোবাইল নাম্বার)
         if (!empty($this->search)) {
             $query->where(function($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('tmis_id', 'like', '%' . $this->search . '%')
+                    ->orWhere('ttis_id', 'like', '%' . $this->search . '%')
                     ->orWhere('mobile_number', 'like', '%' . $this->search . '%');
             });
         }
