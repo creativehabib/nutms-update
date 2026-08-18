@@ -26,6 +26,8 @@ test('dashboard shows college lab and ICT training report totals', function () {
         'has_computer_lab' => 'yes',
         'computer_count' => 25,
         'ict_training_name' => 'Digital Content Creation',
+        'course_type' => 'Honours and Degree',
+        'col_type' => 'Government',
     ]);
     Teacher::query()->create([
         'name' => 'Second Teacher In Same College',
@@ -38,6 +40,8 @@ test('dashboard shows college lab and ICT training report totals', function () {
         'college_code' => '1002',
         'has_computer_lab' => 'no',
         'ict_training_name' => '',
+        'course_type' => 'Degree',
+        'col_type' => 'Private',
     ]);
 
     $response = $this->actingAs($user)->get(route('dashboard'));
@@ -47,6 +51,10 @@ test('dashboard shows college lab and ICT training report totals', function () {
             'collegesWithLab' => 1,
             'collegesWithoutLab' => 1,
             'totalColleges' => 2,
+            'honoursColleges' => 1,
+            'degreeColleges' => 2,
+            'governmentColleges' => 1,
+            'privateColleges' => 1,
             'totalComputers' => 25,
             'labCoverage' => 50.0,
             'teachersWithIctTraining' => 1,
@@ -56,9 +64,12 @@ test('dashboard shows college lab and ICT training report totals', function () {
             'lastUpdatedAt' => Carbon::parse(Teacher::query()->max('updated_at'))->format('d M Y, h:i A'),
         ])
         ->assertSee('কম্পিউটার ল্যাব রিপোর্ট')
-        ->assertSee('আইসিটি ট্রেনিং রিপোর্ট')
         ->assertSee('মোট কম্পিউটার')
-        ->assertSee('আইসিটি ট্রেনিং কভারেজ');
+        ->assertSee('ট্রেনিং রিপোর্ট')
+        ->assertSee('অনার্স কলেজ')
+        ->assertSee('ডিগ্রি কলেজ')
+        ->assertSee('সরকারি কলেজ')
+        ->assertSee('বেসরকারি কলেজ');
 });
 
 test('sidebar menu items use icons that match their destinations', function () {
