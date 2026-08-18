@@ -142,6 +142,8 @@
                                                                         <th class="px-4 py-3 text-left font-semibold">শিক্ষকের নাম</th>
                                                                         <th class="px-4 py-3 text-left font-semibold">সাবজেক্ট</th>
                                                                         <th class="px-4 py-3 text-left font-semibold">পদবী</th>
+                                                                        <th class="px-4 py-3 text-left font-semibold">মোবাইল</th>
+                                                                        <th class="px-4 py-3 text-left font-semibold">ইমেইল</th>
                                                                         <th class="px-4 py-3 text-center font-semibold">ট্রেনিং করেছেন কি না</th>
                                                                     </tr>
                                                                 </thead>
@@ -151,6 +153,20 @@
                                                                             <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">{{ $teacher->name ?: 'উল্লেখ নেই' }}</td>
                                                                             <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $teacher->subject ?: 'উল্লেখ নেই' }}</td>
                                                                             <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $teacher->designation ?: 'উল্লেখ নেই' }}</td>
+                                                                            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">
+                                                                                @if ($teacher->mobile_number)
+                                                                                    <a href="tel:{{ $teacher->mobile_number }}" class="text-indigo-700 hover:underline dark:text-indigo-300">{{ $teacher->mobile_number }}</a>
+                                                                                @else
+                                                                                    উল্লেখ নেই
+                                                                                @endif
+                                                                            </td>
+                                                                            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">
+                                                                                @if ($teacher->email)
+                                                                                    <a href="mailto:{{ $teacher->email }}" class="text-indigo-700 hover:underline dark:text-indigo-300">{{ $teacher->email }}</a>
+                                                                                @else
+                                                                                    উল্লেখ নেই
+                                                                                @endif
+                                                                            </td>
                                                                             <td class="px-4 py-3 text-center">
                                                                                 @if (in_array(mb_strtolower(trim((string) $teacher->has_training)), ['yes', 'হ্যাঁ'], true))
                                                                                     <span class="rounded-full bg-green-100 px-2.5 py-1 text-xs font-bold text-green-700 dark:bg-green-950 dark:text-green-300">হ্যাঁ</span>
@@ -161,7 +177,7 @@
                                                                         </tr>
                                                                     @empty
                                                                         <tr>
-                                                                            <td colspan="4" class="px-4 py-8 text-center text-zinc-500 dark:text-zinc-400">এই কলেজে কোনো শিক্ষকের তথ্য পাওয়া যায়নি।</td>
+                                                                            <td colspan="6" class="px-4 py-8 text-center text-zinc-500 dark:text-zinc-400">এই কলেজে কোনো শিক্ষকের তথ্য পাওয়া যায়নি।</td>
                                                                         </tr>
                                                                     @endforelse
                                                                 </tbody>

@@ -22,6 +22,8 @@ test('division selection shows district wise unique college statistics', functio
             'name' => fake()->name(),
             'subject' => $code === '1001' ? 'Accounting' : 'Bangla',
             'designation' => $code === '1001' ? 'Assistant Professor' : 'Lecturer',
+            'mobile_number' => $code === '1001' ? '01700123456' : null,
+            'email' => $code === '1001' ? 'teacher@example.com' : null,
             'div_name' => 'Dhaka',
             'districts_name' => $district,
             'has_computer_lab' => $hasLab,
@@ -74,8 +76,14 @@ test('division selection shows district wise unique college statistics', functio
         ->assertSee('শিক্ষকের নাম')
         ->assertSee('সাবজেক্ট')
         ->assertSee('পদবী')
+        ->assertSee('মোবাইল')
+        ->assertSee('ইমেইল')
         ->assertSee('Accounting')
         ->assertSee('Assistant Professor')
+        ->assertSee('01700123456')
+        ->assertSee('teacher@example.com')
+        ->assertSee('tel:01700123456', false)
+        ->assertSee('mailto:teacher@example.com', false)
         ->assertSee('ট্রেনিং করেছেন কি না')
         ->assertSee('Gazipur')
         ->assertDontSee('Cumilla');

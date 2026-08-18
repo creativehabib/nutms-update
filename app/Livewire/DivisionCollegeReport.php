@@ -42,7 +42,7 @@ class DivisionCollegeReport extends Component
 
         $colleges = $this->collegesQuery()->get();
         $teachersByCollege = Teacher::query()
-            ->select(['id', 'college_code', 'name', 'subject', 'designation', 'has_training'])
+            ->select(['id', 'college_code', 'name', 'subject', 'designation', 'mobile_number', 'email', 'has_training'])
             ->where('div_name', $this->selectedDivision)
             ->whereIn('college_code', $colleges->pluck('college_code'))
             ->orderBy('name')
