@@ -97,11 +97,12 @@
                                                 <td class="px-4 py-3 text-zinc-900 dark:text-white">
                                                     <button
                                                         type="button"
-                                                        class="group flex w-full items-center gap-2 text-left"
+                                                        class="group flex w-full items-center gap-2 rounded-md text-left outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900"
                                                         x-on:click="expandedCollege = expandedCollege === @js($college->college_code) ? null : @js($college->college_code)"
                                                         x-bind:aria-expanded="expandedCollege === @js($college->college_code)"
+                                                        aria-controls="college-teachers-{{ $college->college_code }}"
                                                     >
-                                                        <flux:icon.chevron-down class="size-4 shrink-0 text-zinc-400 transition-transform group-hover:text-indigo-600 dark:group-hover:text-indigo-300" x-bind:class="expandedCollege === @js($college->college_code) && 'rotate-180'" />
+                                                        <flux:icon.chevron-down class="size-4 shrink-0 text-zinc-400 transition-transform duration-300 ease-in-out group-hover:text-indigo-600 dark:group-hover:text-indigo-300" x-bind:class="expandedCollege === @js($college->college_code) && 'rotate-180'" />
                                                         <span>
                                                             <span class="block font-semibold text-indigo-700 underline-offset-2 group-hover:underline dark:text-indigo-300">{{ $college->college_name ?: 'উল্লেখ নেই' }}</span>
                                                             <span class="text-xs text-zinc-500 dark:text-zinc-400">কোড: {{ $college->college_code }}</span>
@@ -122,14 +123,20 @@
                                                 <td class="px-4 py-3 text-center font-bold text-green-700 dark:text-green-300">{{ (int) $college->trained_teachers }}</td>
                                                 <td class="px-4 py-3 text-center font-bold text-red-600 dark:text-red-300">{{ (int) $college->untrained_teachers }}</td>
                                             </tr>
-                                            <tr
-                                                x-cloak
-                                                x-show="expandedCollege === @js($college->college_code)"
-                                                x-transition.opacity
-                                                class="bg-zinc-50/70 dark:bg-zinc-950/40"
-                                            >
+                                            <tr class="bg-zinc-50/70 dark:bg-zinc-950/40">
                                                 <td colspan="9" class="p-0">
-                                                    <div class="px-6 py-5 sm:px-10">
+                                                    <div
+                                                        id="college-teachers-{{ $college->college_code }}"
+                                                        x-cloak
+                                                        x-show="expandedCollege === @js($college->college_code)"
+                                                        x-transition:enter="transition ease-out duration-300"
+                                                        x-transition:enter-start="opacity-0 -translate-y-2 scale-[0.98]"
+                                                        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                                                        x-transition:leave="transition ease-in duration-200"
+                                                        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                                                        x-transition:leave-end="opacity-0 -translate-y-2 scale-[0.98]"
+                                                        class="origin-top px-6 py-5 sm:px-10"
+                                                    >
                                                         <div class="mb-3 flex items-center justify-between gap-3">
                                                             <h4 class="font-semibold text-zinc-900 dark:text-white">{{ $college->college_name ?: 'এই কলেজ' }}-এর শিক্ষকসমূহ</h4>
                                                             <span class="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">{{ $college->collegeTeachers->count() }} জন</span>

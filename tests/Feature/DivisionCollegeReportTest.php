@@ -85,6 +85,9 @@ test('division selection shows district wise unique college statistics', functio
         ->assertSee('tel:01700123456', false)
         ->assertSee('mailto:teacher@example.com', false)
         ->assertSee('ট্রেনিং করেছেন কি না')
+        ->assertSee('x-transition:enter="transition ease-out duration-300"', false)
+        ->assertSee('x-transition:leave="transition ease-in duration-200"', false)
+        ->assertSee('aria-controls="college-teachers-1001"', false)
         ->assertSee('Gazipur')
         ->assertDontSee('Cumilla');
 });
