@@ -80,7 +80,7 @@ class IctTrainingSummary extends Component
         return view('livewire.ict-training-summary', [
             'teachers' => $teachers,
             'teachersByCollege' => $teachers->getCollection()->groupBy('college_code'),
-        ]);
+        ])->layout('layouts.app', ['title' => 'Training Summary']);
     }
 
     private function teachersWithIctQuery(): Builder

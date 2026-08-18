@@ -456,7 +456,7 @@ class TeacherManagement extends Component
             'collegeCount' => $collegeCount,
             'subjects' => $subjects,
             'collegeCodes' => $collegeCodes,
-        ]);
+        ])->layout('layouts.app', ['title' => 'Teacher Management']);
     }
 
     private function filteredTeachersQuery(): Builder

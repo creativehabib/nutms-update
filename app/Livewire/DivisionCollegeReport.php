@@ -28,7 +28,7 @@ class DivisionCollegeReport extends Component
                 ->orderBy('div_name')
                 ->pluck('div_name'),
             'districtReports' => $this->districtReports(),
-        ]);
+        ])->layout('layouts.app', ['title' => 'Report Summary']);
     }
 
     /**
@@ -85,7 +85,7 @@ class DivisionCollegeReport extends Component
             ->select(
                 'college_code',
                 DB::raw('MAX(college_name) as college_name'),
-                DB::raw("MAX(districts_name) as district_name"),
+                DB::raw('MAX(districts_name) as district_name'),
                 DB::raw('MAX(upazilla) as college_upazilla'),
                 DB::raw("{$labCondition} as has_lab"),
                 DB::raw('MAX(computer_count) as computer_count'),
