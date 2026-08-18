@@ -20,6 +20,10 @@ test('division selection shows district wise unique college statistics', functio
             'college_code' => $code,
             'college_name' => $name,
             'name' => fake()->name(),
+            'subject' => $code === '1001' ? 'Accounting' : 'Bangla',
+            'designation' => $code === '1001' ? 'Assistant Professor' : 'Lecturer',
+            'mobile_number' => $code === '1001' ? '01700123456' : null,
+            'email' => $code === '1001' ? 'teacher@example.com' : null,
             'div_name' => 'Dhaka',
             'districts_name' => $district,
             'has_computer_lab' => $hasLab,
@@ -61,13 +65,26 @@ test('division selection shows district wise unique college statistics', functio
                 && $gazipur->private_colleges === 1
                 && $dhaka->colleges->pluck('college_name')->all() === ['Dhaka College', 'Private College']
                 && (int) $dhaka->colleges->firstWhere('college_code', '1001')->trained_teachers === 1
-                && (int) $dhaka->colleges->firstWhere('college_code', '1001')->untrained_teachers === 1;
+                && (int) $dhaka->colleges->firstWhere('college_code', '1001')->untrained_teachers === 1
+                && $dhaka->colleges->firstWhere('college_code', '1001')->collegeTeachers->count() === 2;
         })
         ->assertSee('Dhaka College')
         ->assertSee('Private College')
         ->assertSee('Test Upazilla')
         ->assertSee('ট্রেনিং করেছেন')
         ->assertSee('ট্রেনিং করেননি')
+        ->assertSee('শিক্ষকের নাম')
+        ->assertSee('সাবজেক্ট')
+        ->assertSee('পদবী')
+        ->assertSee('মোবাইল')
+        ->assertSee('ইমেইল')
+        ->assertSee('Accounting')
+        ->assertSee('Assistant Professor')
+        ->assertSee('01700123456')
+        ->assertSee('teacher@example.com')
+        ->assertSee('tel:01700123456', false)
+        ->assertSee('mailto:teacher@example.com', false)
+        ->assertSee('ট্রেনিং করেছেন কি না')
         ->assertSee('Gazipur')
         ->assertDontSee('Cumilla');
 });

@@ -75,7 +75,7 @@
                                 <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">{{ $report->total_colleges }}টি কলেজ</span>
                             </div>
 
-                            <div class="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700">
+                            <div class="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700" x-data="{ expandedCollege: null }">
                                 <table class="min-w-full border-collapse text-sm">
                                     <thead class="bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
                                         <tr>
@@ -95,8 +95,18 @@
                                             <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/70">
                                                 <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $loop->iteration }}</td>
                                                 <td class="px-4 py-3 text-zinc-900 dark:text-white">
-                                                    <span class="block font-semibold">{{ $college->college_name ?: 'উল্লেখ নেই' }}</span>
-                                                    <span class="text-xs text-zinc-500 dark:text-zinc-400">কোড: {{ $college->college_code }}</span>
+                                                    <button
+                                                        type="button"
+                                                        class="group flex w-full items-center gap-2 text-left"
+                                                        x-on:click="expandedCollege = expandedCollege === @js($college->college_code) ? null : @js($college->college_code)"
+                                                        x-bind:aria-expanded="expandedCollege === @js($college->college_code)"
+                                                    >
+                                                        <flux:icon.chevron-down class="size-4 shrink-0 text-zinc-400 transition-transform group-hover:text-indigo-600 dark:group-hover:text-indigo-300" x-bind:class="expandedCollege === @js($college->college_code) && 'rotate-180'" />
+                                                        <span>
+                                                            <span class="block font-semibold text-indigo-700 underline-offset-2 group-hover:underline dark:text-indigo-300">{{ $college->college_name ?: 'উল্লেখ নেই' }}</span>
+                                                            <span class="text-xs text-zinc-500 dark:text-zinc-400">কোড: {{ $college->college_code }}</span>
+                                                        </span>
+                                                    </button>
                                                 </td>
                                                 <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $college->college_upazilla ?: 'উল্লেখ নেই' }}</td>
                                                 <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $college->college_course_type ?: 'উল্লেখ নেই' }}</td>
@@ -111,6 +121,70 @@
                                                 <td class="px-4 py-3 text-center font-semibold text-zinc-700 dark:text-zinc-200">{{ (int) ($college->computer_count ?? 0) }}</td>
                                                 <td class="px-4 py-3 text-center font-bold text-green-700 dark:text-green-300">{{ (int) $college->trained_teachers }}</td>
                                                 <td class="px-4 py-3 text-center font-bold text-red-600 dark:text-red-300">{{ (int) $college->untrained_teachers }}</td>
+                                            </tr>
+                                            <tr
+                                                x-cloak
+                                                x-show="expandedCollege === @js($college->college_code)"
+                                                x-transition.opacity
+                                                class="bg-zinc-50/70 dark:bg-zinc-950/40"
+                                            >
+                                                <td colspan="9" class="p-0">
+                                                    <div class="px-6 py-5 sm:px-10">
+                                                        <div class="mb-3 flex items-center justify-between gap-3">
+                                                            <h4 class="font-semibold text-zinc-900 dark:text-white">{{ $college->college_name ?: 'এই কলেজ' }}-এর শিক্ষকসমূহ</h4>
+                                                            <span class="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">{{ $college->collegeTeachers->count() }} জন</span>
+                                                        </div>
+
+                                                        <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                                                            <table class="min-w-full text-sm">
+                                                                <thead class="bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">
+                                                                    <tr>
+                                                                        <th class="px-4 py-3 text-left font-semibold">শিক্ষকের নাম</th>
+                                                                        <th class="px-4 py-3 text-left font-semibold">সাবজেক্ট</th>
+                                                                        <th class="px-4 py-3 text-left font-semibold">পদবী</th>
+                                                                        <th class="px-4 py-3 text-left font-semibold">মোবাইল</th>
+                                                                        <th class="px-4 py-3 text-left font-semibold">ইমেইল</th>
+                                                                        <th class="px-4 py-3 text-center font-semibold">ট্রেনিং করেছেন কি না</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
+                                                                    @forelse ($college->collegeTeachers as $teacher)
+                                                                        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/60">
+                                                                            <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">{{ $teacher->name ?: 'উল্লেখ নেই' }}</td>
+                                                                            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $teacher->subject ?: 'উল্লেখ নেই' }}</td>
+                                                                            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $teacher->designation ?: 'উল্লেখ নেই' }}</td>
+                                                                            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">
+                                                                                @if ($teacher->mobile_number)
+                                                                                    <a href="tel:{{ $teacher->mobile_number }}" class="text-indigo-700 hover:underline dark:text-indigo-300">{{ $teacher->mobile_number }}</a>
+                                                                                @else
+                                                                                    উল্লেখ নেই
+                                                                                @endif
+                                                                            </td>
+                                                                            <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">
+                                                                                @if ($teacher->email)
+                                                                                    <a href="mailto:{{ $teacher->email }}" class="text-indigo-700 hover:underline dark:text-indigo-300">{{ $teacher->email }}</a>
+                                                                                @else
+                                                                                    উল্লেখ নেই
+                                                                                @endif
+                                                                            </td>
+                                                                            <td class="px-4 py-3 text-center">
+                                                                                @if (in_array(mb_strtolower(trim((string) $teacher->has_training)), ['yes', 'হ্যাঁ'], true))
+                                                                                    <span class="rounded-full bg-green-100 px-2.5 py-1 text-xs font-bold text-green-700 dark:bg-green-950 dark:text-green-300">হ্যাঁ</span>
+                                                                                @else
+                                                                                    <span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700 dark:bg-red-950 dark:text-red-300">না</span>
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+                                                                    @empty
+                                                                        <tr>
+                                                                            <td colspan="6" class="px-4 py-8 text-center text-zinc-500 dark:text-zinc-400">এই কলেজে কোনো শিক্ষকের তথ্য পাওয়া যায়নি।</td>
+                                                                        </tr>
+                                                                    @endforelse
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -40,8 +40,20 @@ class DivisionCollegeReport extends Component
             return collect();
         }
 
-        return $this->collegesQuery()
+        $colleges = $this->collegesQuery()->get();
+        $teachersByCollege = Teacher::query()
+            ->select(['id', 'college_code', 'name', 'subject', 'designation', 'mobile_number', 'email', 'has_training'])
+            ->where('div_name', $this->selectedDivision)
+            ->whereIn('college_code', $colleges->pluck('college_code'))
+            ->orderBy('name')
             ->get()
+            ->groupBy('college_code');
+
+        $colleges->each(function (Teacher $college) use ($teachersByCollege): void {
+            $college->setRelation('collegeTeachers', $teachersByCollege->get($college->college_code, collect()));
+        });
+
+        return $colleges
             ->groupBy(fn (Teacher $college): string => $college->district_name ?: 'জেলা উল্লেখ নেই')
             ->map(function (Collection $colleges, string $district): object {
                 return (object) [
