@@ -13,6 +13,13 @@ it('renders a responsive edit form with a blurred backdrop', function () {
         ->assertSeeHtml('px-3 py-2.5')
         ->assertSee('শিক্ষক খুঁজুন')
         ->assertSee('এই পৃষ্ঠার সব শিক্ষক নির্বাচন করুন')
+        ->assertSeeHtml('wire:model="editForm.tmis_id"')
+        ->assertSeeHtml('wire:model="editForm.col_type"')
+        ->assertSeeHtml('wire:model="editForm.address"')
+        ->assertSeeHtml('wire:model="editForm.upazilla"')
+        ->assertSeeHtml('wire:model="editForm.districts_name"')
+        ->assertSeeHtml('wire:model="editForm.div_name"')
+        ->assertSeeHtml('wire:model="editForm.course_type"')
         ->assertSeeHtml('lg:grid-cols-[minmax(16rem,1.25fr)_repeat(3,minmax(10rem,0.75fr))_auto]');
 });
 
@@ -50,6 +57,12 @@ it('exports every active teacher field to an Excel spreadsheet', function () {
         'computer_count' => 25,
         'mobile_number' => '01700000000',
         'email' => 'teacher@example.com',
+        'col_type' => 'Government',
+        'address' => 'College Road',
+        'upazilla' => 'Sadar',
+        'districts_name' => 'Dhaka',
+        'div_name' => 'Dhaka',
+        'course_type' => 'Honours',
     ]);
 
     $trashedTeacher = Teacher::query()->create(['name' => 'Trashed Teacher']);
@@ -153,6 +166,12 @@ it('allows every teacher data field to be updated', function () {
         'computer_count' => 25,
         'mobile_number' => '01700000000',
         'email' => 'teacher@example.com',
+        'col_type' => 'Government',
+        'address' => 'College Road',
+        'upazilla' => 'Sadar',
+        'districts_name' => 'Dhaka',
+        'div_name' => 'Dhaka',
+        'course_type' => 'Honours',
     ];
 
     Livewire::test(TeacherManagement::class)

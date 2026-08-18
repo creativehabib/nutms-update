@@ -65,6 +65,12 @@ class TeacherManagement extends Component
         'computer_count' => null,
         'mobile_number' => '',
         'email' => '',
+        'col_type' => '',
+        'address' => '',
+        'upazilla' => '',
+        'districts_name' => '',
+        'div_name' => '',
+        'course_type' => '',
     ];
 
     // কোনো ফিল্টারে পরিবর্তন হলে পেজ ১-এ ফিরে যাবে
@@ -301,6 +307,12 @@ class TeacherManagement extends Component
             'computer_count' => $teacher->computer_count,
             'mobile_number' => $teacher->mobile_number,
             'email' => $teacher->email,
+            'col_type' => $teacher->col_type,
+            'address' => $teacher->address,
+            'upazilla' => $teacher->upazilla,
+            'districts_name' => $teacher->districts_name,
+            'div_name' => $teacher->div_name,
+            'course_type' => $teacher->course_type,
         ];
 
         // ফ্রন্টএন্ডে মডাল ওপেন করার জন্য ইভেন্ট ফায়ার
@@ -333,6 +345,12 @@ class TeacherManagement extends Component
                 'editForm.computer_count' => ['nullable', 'integer', 'min:0'],
                 'editForm.mobile_number' => 'nullable|string|max:50',
                 'editForm.email' => 'nullable|email|max:255',
+                'editForm.col_type' => ['nullable', 'string', 'max:255'],
+                'editForm.address' => ['nullable', 'string', 'max:255'],
+                'editForm.upazilla' => ['nullable', 'string', 'max:255'],
+                'editForm.districts_name' => ['nullable', 'string', 'max:255'],
+                'editForm.div_name' => ['nullable', 'string', 'max:255'],
+                'editForm.course_type' => ['nullable', 'string', 'max:255'],
             ], [
                 'editForm.name.required' => 'শিক্ষকের নাম অবশ্যই দিতে হবে।',
                 'editForm.tmis_id.unique' => 'এই TMIS ID ইতোমধ্যে অন্য একজন শিক্ষকের জন্য ব্যবহার করা হয়েছে।',

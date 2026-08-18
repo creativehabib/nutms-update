@@ -379,14 +379,50 @@
                                         @error('editForm.college_name') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">TTIS ID</label>
-                                        <input type="text" wire:model="editForm.ttis_id" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                                        @error('editForm.ttis_id') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">TMIS ID</label>
+                                        <input type="text" wire:model="editForm.tmis_id" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                        @error('editForm.tmis_id') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">TTIS ID</label>
                                         <input type="text" wire:model="editForm.ttis_id" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
                                         @error('editForm.ttis_id') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 shadow-sm sm:p-5">
+                                <legend class="px-2 text-sm font-semibold text-slate-900 dark:text-slate-100">কলেজের বিস্তারিত তথ্য</legend>
+                                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">কলেজের ধরন</label>
+                                        <input type="text" wire:model="editForm.col_type" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                        @error('editForm.col_type') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">কোর্সের ধরন</label>
+                                        <input type="text" wire:model="editForm.course_type" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                        @error('editForm.course_type') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">উপজেলা</label>
+                                        <input type="text" wire:model="editForm.upazilla" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                        @error('editForm.upazilla') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">জেলা</label>
+                                        <input type="text" wire:model="editForm.districts_name" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                        @error('editForm.districts_name') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">বিভাগ</label>
+                                        <input type="text" wire:model="editForm.div_name" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                        @error('editForm.div_name') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
+                                    </div>
+                                    <div class="sm:col-span-2 lg:col-span-3">
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-300">ঠিকানা</label>
+                                        <input type="text" wire:model="editForm.address" class="mt-1.5 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 shadow-sm transition hover:border-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                                        @error('editForm.address') <span class="mt-1.5 block text-xs font-medium text-red-600">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                             </fieldset>
