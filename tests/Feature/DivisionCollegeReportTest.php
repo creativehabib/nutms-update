@@ -25,6 +25,9 @@ test('division selection shows district wise unique college statistics', functio
             'has_computer_lab' => $hasLab,
             'course_type' => $courseType,
             'col_type' => $collegeType,
+            'upazilla' => 'Test Upazilla',
+            'address' => 'Test Address',
+            'computer_count' => $hasLab === 'no' ? null : 20,
         ]);
     }
 
@@ -55,8 +58,13 @@ test('division selection shows district wise unique college statistics', functio
                 && $gazipur->total_colleges === 1
                 && $gazipur->with_lab === 1
                 && $gazipur->honours_colleges === 1
-                && $gazipur->private_colleges === 1;
+                && $gazipur->private_colleges === 1
+                && $dhaka->colleges->pluck('college_name')->all() === ['Dhaka College', 'Private College'];
         })
+        ->assertSee('Dhaka College')
+        ->assertSee('Private College')
+        ->assertSee('Test Upazilla')
+        ->assertSee('Test Address')
         ->assertSee('Gazipur')
         ->assertDontSee('Cumilla');
 });

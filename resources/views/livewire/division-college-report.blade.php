@@ -66,6 +66,59 @@
                         @endif
                     </table>
                 </div>
+
+                <div class="mt-8 space-y-8">
+                    @foreach ($districtReports as $report)
+                        <section>
+                            <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+                                <h3 class="text-lg font-bold text-zinc-900 dark:text-white">{{ $report->district_name }} জেলার কলেজসমূহ</h3>
+                                <span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">{{ $report->total_colleges }}টি কলেজ</span>
+                            </div>
+
+                            <div class="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700">
+                                <table class="min-w-full border-collapse text-sm">
+                                    <thead class="bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+                                        <tr>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">ক্র. নং</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কলেজ কোড</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কলেজের নাম</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">উপজেলা / ঠিকানা</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কোর্সের ধরন</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কলেজের ধরন</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-center dark:border-zinc-700">কম্পিউটার ল্যাব</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-center dark:border-zinc-700">কম্পিউটার</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-zinc-200 bg-white dark:divide-zinc-700 dark:bg-zinc-900">
+                                        @foreach ($report->colleges as $college)
+                                            <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/70">
+                                                <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $loop->iteration }}</td>
+                                                <td class="px-4 py-3 font-semibold text-zinc-900 dark:text-white">{{ $college->college_code }}</td>
+                                                <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">{{ $college->college_name ?: 'উল্লেখ নেই' }}</td>
+                                                <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">
+                                                    {{ $college->college_upazilla ?: 'উল্লেখ নেই' }}
+                                                    @if ($college->college_address)
+                                                        <span class="block text-xs text-zinc-500">{{ $college->college_address }}</span>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $college->college_course_type ?: 'উল্লেখ নেই' }}</td>
+                                                <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $college->college_type ?: 'উল্লেখ নেই' }}</td>
+                                                <td class="px-4 py-3 text-center">
+                                                    @if ((int) $college->has_lab === 1)
+                                                        <span class="rounded-full bg-green-100 px-2.5 py-1 text-xs font-bold text-green-700 dark:bg-green-950 dark:text-green-300">আছে</span>
+                                                    @else
+                                                        <span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700 dark:bg-red-950 dark:text-red-300">নেই</span>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-3 text-center font-semibold text-zinc-700 dark:text-zinc-200">{{ (int) ($college->computer_count ?? 0) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    @endforeach
+                </div>
             @endif
         </div>
     </div>

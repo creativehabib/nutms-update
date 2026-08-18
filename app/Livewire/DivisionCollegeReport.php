@@ -32,7 +32,7 @@ class DivisionCollegeReport extends Component
     }
 
     /**
-     * @return Collection<int, object{district_name: string, total_colleges: int, with_lab: int, without_lab: int, honours_colleges: int, degree_colleges: int, government_colleges: int, private_colleges: int}>
+     * @return Collection<int, object{district_name: string, total_colleges: int, with_lab: int, without_lab: int, honours_colleges: int, degree_colleges: int, government_colleges: int, private_colleges: int, colleges: Collection<int, Teacher>}>
      */
     private function districtReports(): Collection
     {
@@ -53,6 +53,12 @@ class DivisionCollegeReport extends Component
                     'degree_colleges' => $colleges->filter(fn (Teacher $college): bool => $this->contains($college->college_course_type, ['degree', 'ডিগ্রি', 'ডিগ্রী']))->count(),
                     'government_colleges' => $colleges->filter(fn (Teacher $college): bool => $this->isGovernmentCollege($college->college_type))->count(),
                     'private_colleges' => $colleges->filter(fn (Teacher $college): bool => $this->contains($college->college_type, ['private', 'non-government', 'nongovernment', 'বেসরকারি']))->count(),
+                    'colleges' => $colleges
+                        ->sortBy([
+                            ['college_name', 'asc'],
+                            ['college_code', 'asc'],
+                        ])
+                        ->values(),
                 ];
             })
             ->sortBy('district_name', SORT_NATURAL | SORT_FLAG_CASE)
@@ -66,8 +72,12 @@ class DivisionCollegeReport extends Component
         return Teacher::query()
             ->select(
                 'college_code',
+                DB::raw('MAX(college_name) as college_name'),
                 DB::raw("MAX(districts_name) as district_name"),
+                DB::raw('MAX(upazilla) as college_upazilla'),
+                DB::raw('MAX(address) as college_address'),
                 DB::raw("{$labCondition} as has_lab"),
+                DB::raw('MAX(computer_count) as computer_count'),
                 DB::raw('MAX(course_type) as college_course_type'),
                 DB::raw('MAX(col_type) as college_type'),
             )
