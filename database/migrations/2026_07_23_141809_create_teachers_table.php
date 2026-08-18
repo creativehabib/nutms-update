@@ -36,6 +36,12 @@ return new class extends Migration
             $table->integer('computer_count')->nullable();
             $table->string('mobile_number')->nullable();
             $table->string('email')->nullable();
+            $table->string('col_type')->nullable();
+            $table->string('address')->nullable();
+            $table->string('upazilla')->nullable();
+            $table->string('districts_name')->nullable();
+            $table->string('div_name')->nullable();
+            $table->string('course_type')->nullable();
 
             $table->timestamps();
         });
