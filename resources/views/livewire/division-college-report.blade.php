@@ -80,27 +80,25 @@
                                     <thead class="bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
                                         <tr>
                                             <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">ক্র. নং</th>
-                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কলেজ কোড</th>
-                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কলেজের নাম</th>
-                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">উপজেলা / ঠিকানা</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কলেজের নাম ও কোড</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">উপজেলা</th>
                                             <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কোর্সের ধরন</th>
                                             <th class="border-b border-zinc-200 px-4 py-3 text-left dark:border-zinc-700">কলেজের ধরন</th>
                                             <th class="border-b border-zinc-200 px-4 py-3 text-center dark:border-zinc-700">কম্পিউটার ল্যাব</th>
                                             <th class="border-b border-zinc-200 px-4 py-3 text-center dark:border-zinc-700">কম্পিউটার</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-center dark:border-zinc-700">ট্রেনিং করেছেন</th>
+                                            <th class="border-b border-zinc-200 px-4 py-3 text-center dark:border-zinc-700">ট্রেনিং করেননি</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-zinc-200 bg-white dark:divide-zinc-700 dark:bg-zinc-900">
                                         @foreach ($report->colleges as $college)
                                             <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/70">
                                                 <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $loop->iteration }}</td>
-                                                <td class="px-4 py-3 font-semibold text-zinc-900 dark:text-white">{{ $college->college_code }}</td>
-                                                <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">{{ $college->college_name ?: 'উল্লেখ নেই' }}</td>
-                                                <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">
-                                                    {{ $college->college_upazilla ?: 'উল্লেখ নেই' }}
-                                                    @if ($college->college_address)
-                                                        <span class="block text-xs text-zinc-500">{{ $college->college_address }}</span>
-                                                    @endif
+                                                <td class="px-4 py-3 text-zinc-900 dark:text-white">
+                                                    <span class="block font-semibold">{{ $college->college_name ?: 'উল্লেখ নেই' }}</span>
+                                                    <span class="text-xs text-zinc-500 dark:text-zinc-400">কোড: {{ $college->college_code }}</span>
                                                 </td>
+                                                <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $college->college_upazilla ?: 'উল্লেখ নেই' }}</td>
                                                 <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $college->college_course_type ?: 'উল্লেখ নেই' }}</td>
                                                 <td class="px-4 py-3 text-zinc-600 dark:text-zinc-300">{{ $college->college_type ?: 'উল্লেখ নেই' }}</td>
                                                 <td class="px-4 py-3 text-center">
@@ -111,6 +109,8 @@
                                                     @endif
                                                 </td>
                                                 <td class="px-4 py-3 text-center font-semibold text-zinc-700 dark:text-zinc-200">{{ (int) ($college->computer_count ?? 0) }}</td>
+                                                <td class="px-4 py-3 text-center font-bold text-green-700 dark:text-green-300">{{ (int) $college->trained_teachers }}</td>
+                                                <td class="px-4 py-3 text-center font-bold text-red-600 dark:text-red-300">{{ (int) $college->untrained_teachers }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

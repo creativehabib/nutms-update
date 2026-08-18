@@ -75,11 +75,12 @@ class DivisionCollegeReport extends Component
                 DB::raw('MAX(college_name) as college_name'),
                 DB::raw("MAX(districts_name) as district_name"),
                 DB::raw('MAX(upazilla) as college_upazilla'),
-                DB::raw('MAX(address) as college_address'),
                 DB::raw("{$labCondition} as has_lab"),
                 DB::raw('MAX(computer_count) as computer_count'),
                 DB::raw('MAX(course_type) as college_course_type'),
                 DB::raw('MAX(col_type) as college_type'),
+                DB::raw("SUM(CASE WHEN LOWER(TRIM(has_training)) IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END) as trained_teachers"),
+                DB::raw("SUM(CASE WHEN LOWER(TRIM(COALESCE(has_training, ''))) NOT IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END) as untrained_teachers"),
             )
             ->where('div_name', $this->selectedDivision)
             ->whereNotNull('college_code')

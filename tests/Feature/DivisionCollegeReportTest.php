@@ -15,7 +15,7 @@ test('division selection shows district wise unique college statistics', functio
         ['1001', 'Dhaka College', 'Dhaka', 'yes', 'Honours and Degree', 'Government'],
         ['1002', 'Private College', 'Dhaka', 'no', 'Degree', 'Private'],
         ['1003', 'Gazipur College', 'Gazipur', 'হ্যাঁ', 'অনার্স', 'বেসরকারি'],
-    ] as [$code, $name, $district, $hasLab, $courseType, $collegeType]) {
+    ] as $index => [$code, $name, $district, $hasLab, $courseType, $collegeType]) {
         Teacher::query()->create([
             'college_code' => $code,
             'college_name' => $name,
@@ -26,8 +26,8 @@ test('division selection shows district wise unique college statistics', functio
             'course_type' => $courseType,
             'col_type' => $collegeType,
             'upazilla' => 'Test Upazilla',
-            'address' => 'Test Address',
             'computer_count' => $hasLab === 'no' ? null : 20,
+            'has_training' => $index % 2 === 0 ? 'yes' : 'no',
         ]);
     }
 
@@ -59,12 +59,15 @@ test('division selection shows district wise unique college statistics', functio
                 && $gazipur->with_lab === 1
                 && $gazipur->honours_colleges === 1
                 && $gazipur->private_colleges === 1
-                && $dhaka->colleges->pluck('college_name')->all() === ['Dhaka College', 'Private College'];
+                && $dhaka->colleges->pluck('college_name')->all() === ['Dhaka College', 'Private College']
+                && (int) $dhaka->colleges->firstWhere('college_code', '1001')->trained_teachers === 1
+                && (int) $dhaka->colleges->firstWhere('college_code', '1001')->untrained_teachers === 1;
         })
         ->assertSee('Dhaka College')
         ->assertSee('Private College')
         ->assertSee('Test Upazilla')
-        ->assertSee('Test Address')
+        ->assertSee('ট্রেনিং করেছেন')
+        ->assertSee('ট্রেনিং করেননি')
         ->assertSee('Gazipur')
         ->assertDontSee('Cumilla');
 });
