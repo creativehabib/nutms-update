@@ -1,4 +1,4 @@
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+<div class="w-full">
     <div class="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
         <div class="border-b border-zinc-200 bg-zinc-50 px-6 py-5 dark:border-zinc-700 dark:bg-zinc-800">
             <h1 class="text-xl font-bold text-zinc-900 dark:text-white">বিভাগভিত্তিক কলেজ রিপোর্ট</h1>

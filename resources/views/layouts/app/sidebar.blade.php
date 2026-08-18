@@ -29,7 +29,7 @@
                 </flux:sidebar.item>
 
                 <flux:sidebar.item icon="chart-bar" :href="route('reports.division-colleges')" :current="request()->routeIs('reports.division-colleges')" wire:navigate>
-                    {{ __('Division Report') }}
+                    {{ __('Report Summary') }}
                 </flux:sidebar.item>
 
             </flux:sidebar.nav>
