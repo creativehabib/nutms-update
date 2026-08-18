@@ -22,41 +22,84 @@
             </div>
         </header>
 
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+        <section aria-labelledby="college-overview-heading">
+            <div class="mb-3 flex items-end justify-between gap-4">
+                <div>
+                    <flux:heading id="college-overview-heading" size="lg">কলেজের সারসংক্ষেপ</flux:heading>
+                    <flux:text class="mt-1">ধরন ও পরিচালনা অনুযায়ী কলেজের সংখ্যা</flux:text>
+                </div>
+                <flux:button :href="route('reports.division-colleges')" variant="ghost" size="sm" icon-trailing="arrow-up-right" wire:navigate>বিস্তারিত</flux:button>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+                <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
                 <div class="flex items-center justify-between gap-4">
                     <div class="rounded-lg bg-indigo-50 p-2.5 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300"><flux:icon.building-library class="size-6" /></div>
                     <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">সকল প্রতিষ্ঠান</span>
                 </div>
                 <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['totalColleges']) }}</p>
                 <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">মোট কলেজ</p>
-            </div>
-
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-                <div class="flex items-center justify-between gap-4">
-                    <div class="rounded-lg bg-sky-50 p-2.5 text-sky-600 dark:bg-sky-950 dark:text-sky-300"><flux:icon.user-group class="size-6" /></div>
-                    <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">সকল শিক্ষক</span>
                 </div>
-                <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['totalTeachers']) }}</p>
-                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">মোট শিক্ষক</p>
-            </div>
 
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-                <div class="flex items-center justify-between gap-4">
-                    <div class="rounded-lg bg-emerald-50 p-2.5 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300"><flux:icon.computer-desktop class="size-6" /></div>
-                    <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">ল্যাবভুক্ত কলেজে</span>
-                </div>
-                <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['totalComputers']) }}</p>
-                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">মোট কম্পিউটার</p>
-            </div>
-
-            <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
                 <div class="flex items-center justify-between gap-4">
                     <div class="rounded-lg bg-violet-50 p-2.5 text-violet-600 dark:bg-violet-950 dark:text-violet-300"><flux:icon.academic-cap class="size-6" /></div>
-                    <span class="text-xs font-medium text-violet-600 dark:text-violet-400">ট্রেনিং অগ্রগতি</span>
+                    <span class="text-xs font-medium text-violet-600 dark:text-violet-400">কোর্সের ধরন</span>
                 </div>
-                <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['ictTrainingCoverage'], 1) }}%</p>
-                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">ট্রেনিং কভারেজ</p>
+                <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['honoursColleges']) }}</p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">অনার্স কলেজ</p>
+                </div>
+
+                <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="rounded-lg bg-sky-50 p-2.5 text-sky-600 dark:bg-sky-950 dark:text-sky-300"><flux:icon.book-open class="size-6" /></div>
+                    <span class="text-xs font-medium text-sky-600 dark:text-sky-400">কোর্সের ধরন</span>
+                </div>
+                <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['degreeColleges']) }}</p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">ডিগ্রি কলেজ</p>
+                </div>
+
+                <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="rounded-lg bg-emerald-50 p-2.5 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300"><flux:icon.building-office-2 class="size-6" /></div>
+                    <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">পরিচালনার ধরন</span>
+                </div>
+                <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['governmentColleges']) }}</p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">সরকারি কলেজ</p>
+                </div>
+
+                <div class="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="rounded-lg bg-amber-50 p-2.5 text-amber-600 dark:bg-amber-950 dark:text-amber-300"><flux:icon.building-office class="size-6" /></div>
+                    <span class="text-xs font-medium text-amber-600 dark:text-amber-400">পরিচালনার ধরন</span>
+                </div>
+                <p class="mt-5 text-3xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['privateColleges']) }}</p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">বেসরকারি কলেজ</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid gap-4 sm:grid-cols-3">
+            <div class="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="rounded-lg bg-sky-50 p-2.5 text-sky-600 dark:bg-sky-950 dark:text-sky-300"><flux:icon.user-group class="size-6" /></div>
+                <div>
+                    <p class="text-2xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['totalTeachers']) }}</p>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400">মোট শিক্ষক</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="rounded-lg bg-emerald-50 p-2.5 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300"><flux:icon.computer-desktop class="size-6" /></div>
+                <div>
+                    <p class="text-2xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['totalComputers']) }}</p>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400">মোট কম্পিউটার</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+                <div class="rounded-lg bg-violet-50 p-2.5 text-violet-600 dark:bg-violet-950 dark:text-violet-300"><flux:icon.academic-cap class="size-6" /></div>
+                <div>
+                    <p class="text-2xl font-bold text-zinc-950 dark:text-white">{{ number_format($report['ictTrainingCoverage'], 1) }}%</p>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400">ট্রেনিং কভারেজ</p>
+                </div>
             </div>
         </div>
 
