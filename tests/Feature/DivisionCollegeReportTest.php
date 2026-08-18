@@ -20,6 +20,8 @@ test('division selection shows district wise unique college statistics', functio
             'college_code' => $code,
             'college_name' => $name,
             'name' => fake()->name(),
+            'subject' => $code === '1001' ? 'Accounting' : 'Bangla',
+            'designation' => $code === '1001' ? 'Assistant Professor' : 'Lecturer',
             'div_name' => 'Dhaka',
             'districts_name' => $district,
             'has_computer_lab' => $hasLab,
@@ -61,13 +63,20 @@ test('division selection shows district wise unique college statistics', functio
                 && $gazipur->private_colleges === 1
                 && $dhaka->colleges->pluck('college_name')->all() === ['Dhaka College', 'Private College']
                 && (int) $dhaka->colleges->firstWhere('college_code', '1001')->trained_teachers === 1
-                && (int) $dhaka->colleges->firstWhere('college_code', '1001')->untrained_teachers === 1;
+                && (int) $dhaka->colleges->firstWhere('college_code', '1001')->untrained_teachers === 1
+                && $dhaka->colleges->firstWhere('college_code', '1001')->collegeTeachers->count() === 2;
         })
         ->assertSee('Dhaka College')
         ->assertSee('Private College')
         ->assertSee('Test Upazilla')
         ->assertSee('ট্রেনিং করেছেন')
         ->assertSee('ট্রেনিং করেননি')
+        ->assertSee('শিক্ষকের নাম')
+        ->assertSee('সাবজেক্ট')
+        ->assertSee('পদবী')
+        ->assertSee('Accounting')
+        ->assertSee('Assistant Professor')
+        ->assertSee('ট্রেনিং করেছেন কি না')
         ->assertSee('Gazipur')
         ->assertDontSee('Cumilla');
 });
