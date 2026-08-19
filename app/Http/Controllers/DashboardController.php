@@ -12,15 +12,15 @@ class DashboardController extends Controller
     public function __invoke(): View
     {
         $colleges = Teacher::query()
-            ->selectRaw("college_code, MAX(CASE WHEN LOWER(has_computer_lab) = 'yes' THEN 1 ELSE 0 END) as has_lab")
+            ->selectRaw("TRIM(college_code) as college_code, MAX(CASE WHEN LOWER(TRIM(COALESCE(has_computer_lab, ''))) IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END) as has_lab")
             ->selectRaw('MAX(COALESCE(computer_count, 0)) as computer_count')
             ->selectRaw("MAX(CASE WHEN LOWER(TRIM(COALESCE(course_type, ''))) LIKE '%honours%' OR LOWER(TRIM(COALESCE(course_type, ''))) LIKE '%honors%' OR course_type LIKE '%অনার্স%' THEN 1 ELSE 0 END) as has_honours")
             ->selectRaw("MAX(CASE WHEN LOWER(TRIM(COALESCE(course_type, ''))) LIKE '%degree%' OR course_type LIKE '%ডিগ্রি%' OR course_type LIKE '%ডিগ্রী%' THEN 1 ELSE 0 END) as has_degree")
             ->selectRaw("MAX(CASE WHEN LOWER(TRIM(COALESCE(col_type, ''))) LIKE '%government%' OR LOWER(TRIM(COALESCE(col_type, ''))) LIKE '%govt%' OR col_type LIKE '%সরকারি%' THEN 1 ELSE 0 END) as is_government")
             ->selectRaw("MAX(CASE WHEN LOWER(TRIM(COALESCE(col_type, ''))) LIKE '%private%' OR LOWER(TRIM(COALESCE(col_type, ''))) LIKE '%non-government%' OR LOWER(TRIM(COALESCE(col_type, ''))) LIKE '%nongovernment%' OR col_type LIKE '%বেসরকারি%' THEN 1 ELSE 0 END) as is_private")
             ->whereNotNull('college_code')
-            ->where('college_code', '!=', '')
-            ->groupBy('college_code');
+            ->whereRaw("TRIM(college_code) != ''")
+            ->groupByRaw('TRIM(college_code)');
 
         $collegeReport = DB::query()
             ->fromSub($colleges, 'colleges')
@@ -36,8 +36,8 @@ class DashboardController extends Controller
 
         $teacherReport = Teacher::query()
             ->selectRaw('COUNT(*) as total')
-            ->selectRaw("SUM(CASE WHEN ict_training_name IS NOT NULL AND ict_training_name != '' THEN 1 ELSE 0 END) as with_ict_training")
-            ->selectRaw("SUM(CASE WHEN ict_training_name IS NULL OR ict_training_name = '' THEN 1 ELSE 0 END) as without_ict_training")
+            ->selectRaw("SUM(CASE WHEN LOWER(TRIM(COALESCE(has_training, ''))) IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END) as with_ict_training")
+            ->selectRaw("SUM(CASE WHEN LOWER(TRIM(COALESCE(has_training, ''))) NOT IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END) as without_ict_training")
             ->selectRaw('MAX(updated_at) as last_updated_at')
             ->first();
 

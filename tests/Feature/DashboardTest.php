@@ -25,6 +25,7 @@ test('dashboard shows college lab and ICT training report totals', function () {
         'college_code' => '1001',
         'has_computer_lab' => 'yes',
         'computer_count' => 25,
+        'has_training' => 'Yes',
         'ict_training_name' => 'Digital Content Creation',
         'course_type' => 'Honours and Degree',
         'col_type' => 'Government',
@@ -33,12 +34,14 @@ test('dashboard shows college lab and ICT training report totals', function () {
         'name' => 'Second Teacher In Same College',
         'college_code' => '1001',
         'has_computer_lab' => 'no',
+        'has_training' => 'No',
         'ict_training_name' => null,
     ]);
     Teacher::query()->create([
         'name' => 'Teacher Without Training',
         'college_code' => '1002',
         'has_computer_lab' => 'no',
+        'has_training' => 'No',
         'ict_training_name' => '',
         'course_type' => 'Degree',
         'col_type' => 'Private',
@@ -70,6 +73,34 @@ test('dashboard shows college lab and ICT training report totals', function () {
         ->assertSee('ডিগ্রি কলেজ')
         ->assertSee('সরকারি কলেজ')
         ->assertSee('বেসরকারি কলেজ');
+});
+
+test('dashboard normalizes imported whitespace and Bengali lab answers', function () {
+    $user = User::factory()->create();
+
+    Teacher::query()->create([
+        'name' => 'First Teacher',
+        'college_code' => ' 1001 ',
+        'has_computer_lab' => ' হ্যাঁ ',
+        'computer_count' => 12,
+        'has_training' => ' no ',
+        'ict_training_name' => '   ',
+    ]);
+    Teacher::query()->create([
+        'name' => 'Second Teacher',
+        'college_code' => '1001',
+        'has_computer_lab' => ' YES ',
+        'has_training' => ' YES ',
+        'ict_training_name' => 'Digital Content Creation',
+    ]);
+
+    $this->actingAs($user)->get(route('dashboard'))
+        ->assertViewHas('report', fn (array $report): bool => $report['totalColleges'] === 1
+            && $report['collegesWithLab'] === 1
+            && $report['collegesWithoutLab'] === 0
+            && $report['totalComputers'] === 12
+            && $report['teachersWithIctTraining'] === 1
+            && $report['teachersWithoutIctTraining'] === 1);
 });
 
 test('sidebar menu items use icons that match their destinations', function () {

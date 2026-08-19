@@ -86,8 +86,7 @@ class IctTrainingSummary extends Component
     private function teachersWithIctQuery(): Builder
     {
         return Teacher::select('id', 'college_code', 'college_name', 'name', 'subject', 'ict_training_name', 'other_training_name', 'training_institute')
-            ->whereNotNull('ict_training_name')
-            ->where('ict_training_name', '!=', '')
+            ->whereRaw("LOWER(TRIM(COALESCE(has_training, ''))) IN ('yes', 'হ্যাঁ')")
             ->orderBy('college_code')
             ->orderBy('name')
             ->orderBy('id');
@@ -96,10 +95,7 @@ class IctTrainingSummary extends Component
     private function teachersWithoutIctQuery(): Builder
     {
         return Teacher::select('id', 'college_code', 'college_name', 'name', 'subject', 'designation', 'teacher_level', 'employment_type')
-            ->where(function (Builder $query): void {
-                $query->whereNull('ict_training_name')
-                    ->orWhere('ict_training_name', '');
-            })
+            ->whereRaw("LOWER(TRIM(COALESCE(has_training, ''))) NOT IN ('yes', 'হ্যাঁ')")
             ->orderBy('college_code')
             ->orderBy('name')
             ->orderBy('id');

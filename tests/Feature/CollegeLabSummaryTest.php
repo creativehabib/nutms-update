@@ -48,3 +48,27 @@ test('each college lab tab can be exported to its own spreadsheet', function (st
     ['with_lab', 'colleges-with-computer-lab.xlsx', 'yes'],
     ['without_lab', 'colleges-without-computer-lab.xlsx', 'no'],
 ]);
+
+test('lab summary normalizes college codes names and affirmative lab values', function () {
+    Teacher::query()->create([
+        'name' => 'First Teacher',
+        'college_code' => ' 1001 ',
+        'college_name' => 'Older College Name',
+        'has_computer_lab' => ' হ্যাঁ ',
+        'computer_count' => 20,
+    ]);
+    Teacher::query()->create([
+        'name' => 'Second Teacher',
+        'college_code' => '1001',
+        'college_name' => 'Updated College Name',
+        'has_computer_lab' => 'no',
+        'computer_count' => 10,
+    ]);
+
+    Livewire::test(CollegeLabSummary::class)
+        ->assertViewHas('colleges', fn ($colleges): bool => $colleges->total() === 1
+            && $colleges->first()->college_code === '1001'
+            && (int) $colleges->first()->total_computers === 20)
+        ->call('showTab', 'without_lab')
+        ->assertViewHas('colleges', fn ($colleges): bool => $colleges->total() === 0);
+});
