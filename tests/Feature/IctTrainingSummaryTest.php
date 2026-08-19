@@ -6,10 +6,11 @@ use App\Models\Teacher;
 use Livewire\Livewire;
 use Maatwebsite\Excel\Facades\Excel;
 
-test('training summary shows non-empty ICT training names without marker filtering', function (string $trainingName) {
+test('training summary uses the explicit training status regardless of the training name', function (?string $trainingName) {
     Teacher::query()->create([
         'name' => 'Teacher With Training Data',
         'college_code' => '1001',
+        'has_training' => ' Yes ',
         'ict_training_name' => $trainingName,
         'other_training_name' => 'Other Training Data',
     ]);
@@ -19,12 +20,13 @@ test('training summary shows non-empty ICT training names without marker filteri
             'teachersByCollege',
             fn ($teachers): bool => $teachers->flatten(1)->pluck('name')->contains('Teacher With Training Data'),
         );
-})->with(['N/A', 'No', 'NO', '-', '---', 'Nill', 'NA', '0', 'No training', ' no training ']);
+})->with([null, '', 'N/A', 'Digital Content Creation']);
 
 test('other training name does not filter a teacher with an ICT training name', function () {
     Teacher::query()->create([
         'name' => 'ICT Teacher',
         'college_code' => '1001',
+        'has_training' => 'Yes',
         'ict_training_name' => 'Digital Content Creation',
         'other_training_name' => 'N/A',
     ]);
@@ -35,11 +37,12 @@ test('other training name does not filter a teacher with an ICT training name', 
         ->assertSee('N/A');
 });
 
-test('training summary lists teachers with an empty ICT training name as without ICT training', function (?string $trainingName) {
+test('training summary lists teachers without an affirmative training status as without training', function (?string $trainingStatus) {
     Teacher::query()->create([
         'name' => 'Teacher Without ICT Training',
         'college_code' => '1001',
-        'ict_training_name' => $trainingName,
+        'has_training' => $trainingStatus,
+        'ict_training_name' => 'Digital Content Creation',
         'other_training_name' => 'Office Management',
     ]);
 
@@ -49,12 +52,13 @@ test('training summary lists teachers with an empty ICT training name as without
             'teachersByCollege',
             fn ($teachers): bool => $teachers->flatten(1)->pluck('name')->contains('Teacher Without ICT Training'),
         );
-})->with([null, '', '   ', "\t\n"]);
+})->with([null, '', 'No', 'না']);
 
 test('teachers without ICT training show their professional details', function () {
     Teacher::query()->create([
         'name' => 'Teacher With Professional Details',
         'college_code' => '1001',
+        'has_training' => 'No',
         'ict_training_name' => null,
         'subject' => 'Accounting',
         'designation' => 'Assistant Professor',
@@ -79,6 +83,7 @@ test('training summary paginates records and only loads the active tab', functio
         Teacher::query()->create([
             'name' => "Trained Teacher {$index}",
             'college_code' => '1001',
+            'has_training' => 'Yes',
             'ict_training_name' => 'Digital Content Creation',
         ]);
     }
@@ -86,6 +91,7 @@ test('training summary paginates records and only loads the active tab', functio
     Teacher::query()->create([
         'name' => 'Teacher Without Training',
         'college_code' => '1002',
+        'has_training' => 'No',
         'ict_training_name' => null,
     ]);
 
@@ -105,6 +111,7 @@ test('each ICT training tab can be exported to its own spreadsheet', function (s
         'name' => 'Exported Teacher',
         'college_code' => '1001',
         'college_name' => 'Export College',
+        'has_training' => $tab === 'with_ict' ? 'Yes' : 'No',
         'ict_training_name' => $tab === 'with_ict' ? 'Digital Content Creation' : null,
     ]);
 
@@ -123,6 +130,7 @@ test('teachers without ICT training export includes their professional details',
         'name' => 'Exported Teacher Details',
         'college_code' => '1001',
         'college_name' => 'Export College',
+        'has_training' => 'No',
         'ict_training_name' => null,
         'subject' => 'Accounting',
         'designation' => 'Assistant Professor',
@@ -157,6 +165,7 @@ test('teacher serial numbers restart for every college in both tabs', function (
             'name' => "Teacher {$collegeCode}",
             'college_code' => $collegeCode,
             'college_name' => "College {$collegeCode}",
+            'has_training' => $tab === 'with_ict' ? 'Yes' : 'No',
             'ict_training_name' => $trainingName,
         ]);
     }
@@ -181,6 +190,7 @@ test('teacher serial numbers restart for every college in both exports', functio
             'name' => "Exported Teacher {$collegeCode}",
             'college_code' => $collegeCode,
             'college_name' => "Export College {$collegeCode}",
+            'has_training' => $tab === 'with_ict' ? 'Yes' : 'No',
             'ict_training_name' => $trainingName,
         ]);
     }

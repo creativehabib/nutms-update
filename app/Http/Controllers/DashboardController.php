@@ -36,8 +36,8 @@ class DashboardController extends Controller
 
         $teacherReport = Teacher::query()
             ->selectRaw('COUNT(*) as total')
-            ->selectRaw("SUM(CASE WHEN TRIM(COALESCE(ict_training_name, '')) != '' THEN 1 ELSE 0 END) as with_ict_training")
-            ->selectRaw("SUM(CASE WHEN TRIM(COALESCE(ict_training_name, '')) = '' THEN 1 ELSE 0 END) as without_ict_training")
+            ->selectRaw("SUM(CASE WHEN LOWER(TRIM(COALESCE(has_training, ''))) IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END) as with_ict_training")
+            ->selectRaw("SUM(CASE WHEN LOWER(TRIM(COALESCE(has_training, ''))) NOT IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END) as without_ict_training")
             ->selectRaw('MAX(updated_at) as last_updated_at')
             ->first();
 
