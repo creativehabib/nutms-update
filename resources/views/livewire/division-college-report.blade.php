@@ -4,18 +4,29 @@
             <h1 class="text-xl font-bold text-zinc-900 dark:text-white">বিভাগভিত্তিক কলেজ রিপোর্ট</h1>
             <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">বিভাগ নির্বাচন করে জেলাভিত্তিক কলেজের ধরন ও কম্পিউটার ল্যাবের তথ্য দেখুন।</p>
 
-            <div class="mt-5 max-w-md">
-                <label for="division" class="mb-2 block text-sm font-semibold text-zinc-800 dark:text-zinc-200">বিভাগ নির্বাচন করুন</label>
-                <select id="division" wire:model.live="selectedDivision" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-zinc-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-900 dark:text-white">
-                    <option value="">-- বিভাগ নির্বাচন করুন --</option>
-                    @foreach ($divisions as $division)
-                        <option value="{{ $division }}">{{ $division }}</option>
-                    @endforeach
-                </select>
+            <div class="mt-5 grid max-w-3xl gap-4 sm:grid-cols-2">
+                <div>
+                    <label for="division" class="mb-2 block text-sm font-semibold text-zinc-800 dark:text-zinc-200">বিভাগ নির্বাচন করুন</label>
+                    <select id="division" wire:model.live="selectedDivision" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-zinc-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-900 dark:text-white">
+                        <option value="">-- বিভাগ নির্বাচন করুন --</option>
+                        @foreach ($divisions as $division)
+                            <option value="{{ $division }}">{{ $division }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label for="college-type" class="mb-2 block text-sm font-semibold text-zinc-800 dark:text-zinc-200">কলেজের ধরন নির্বাচন করুন</label>
+                    <select id="college-type" wire:model.live="selectedCollegeType" class="block w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-zinc-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-900 dark:text-white">
+                        <option value="">সব কলেজ</option>
+                        <option value="honours">অনার্স কলেজ</option>
+                        <option value="degree">ডিগ্রি কলেজ</option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <div class="p-6" wire:loading.class="opacity-50" wire:target="selectedDivision">
+        <div class="p-6" wire:loading.class="opacity-50" wire:target="selectedDivision, selectedCollegeType">
             @if ($selectedDivision === '')
                 <div class="rounded-lg border border-dashed border-zinc-300 px-6 py-12 text-center text-zinc-500 dark:border-zinc-600 dark:text-zinc-400">রিপোর্ট দেখতে একটি বিভাগ নির্বাচন করুন।</div>
             @else

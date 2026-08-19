@@ -46,6 +46,8 @@ test('division selection shows district wise unique college statistics', functio
     Livewire::actingAs(User::factory()->create())
         ->test(DivisionCollegeReport::class)
         ->assertSee('Dhaka')
+        ->assertSee('কলেজের ধরন নির্বাচন করুন')
+        ->assertSeeHtml('wire:model.live="selectedCollegeType"')
         ->set('selectedDivision', 'Dhaka')
         ->assertViewHas('districtReports', function ($reports): bool {
             $dhaka = $reports->firstWhere('district_name', 'Dhaka');
@@ -90,4 +92,34 @@ test('division selection shows district wise unique college statistics', functio
         ->assertSee('aria-controls="college-teachers-1001"', false)
         ->assertSee('Gazipur')
         ->assertDontSee('Cumilla');
+});
+
+test('college course type selection filters the division report', function () {
+    foreach ([
+        ['1001', 'Combined College', 'Honours and Degree'],
+        ['1002', 'Honours College', 'অনার্স'],
+        ['1003', 'Degree College', 'ডিগ্রি'],
+    ] as [$code, $name, $courseType]) {
+        Teacher::query()->create([
+            'college_code' => $code,
+            'college_name' => $name,
+            'name' => fake()->name(),
+            'div_name' => 'Dhaka',
+            'districts_name' => 'Dhaka',
+            'course_type' => $courseType,
+        ]);
+    }
+
+    $component = Livewire::actingAs(User::factory()->create())
+        ->test(DivisionCollegeReport::class)
+        ->set('selectedDivision', 'Dhaka');
+
+    $component
+        ->set('selectedCollegeType', 'honours')
+        ->assertViewHas('districtReports', fn ($reports): bool => $reports->first()->colleges->pluck('college_code')->all() === ['1001', '1002'])
+        ->set('selectedCollegeType', 'degree')
+        ->assertViewHas('districtReports', fn ($reports): bool => $reports->first()->colleges->pluck('college_code')->all() === ['1001', '1003'])
+        ->set('selectedCollegeType', 'invalid')
+        ->assertSet('selectedCollegeType', '')
+        ->assertViewHas('districtReports', fn ($reports): bool => $reports->first()->total_colleges === 3);
 });

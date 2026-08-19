@@ -13,9 +13,18 @@ class DivisionCollegeReport extends Component
 {
     public string $selectedDivision = '';
 
+    public string $selectedCollegeType = '';
+
     public function updatedSelectedDivision(): void
     {
         $this->selectedDivision = trim($this->selectedDivision);
+    }
+
+    public function updatedSelectedCollegeType(): void
+    {
+        if (! in_array($this->selectedCollegeType, ['honours', 'degree'], true)) {
+            $this->selectedCollegeType = '';
+        }
     }
 
     public function render(): View
@@ -81,7 +90,7 @@ class DivisionCollegeReport extends Component
     {
         $labCondition = "MAX(CASE WHEN LOWER(TRIM(has_computer_lab)) IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END)";
 
-        return Teacher::query()
+        $query = Teacher::query()
             ->select(
                 'college_code',
                 DB::raw('MAX(college_name) as college_name'),
@@ -99,6 +108,32 @@ class DivisionCollegeReport extends Component
             ->where('college_code', '!=', '')
             ->groupBy('college_code')
             ->orderBy('college_code');
+
+        if ($this->selectedCollegeType !== '') {
+            $query->whereIn('college_code', function ($courseQuery): void {
+                $courseQuery
+                    ->select('college_code')
+                    ->from('teachers')
+                    ->whereNotNull('college_code')
+                    ->where(function ($courseTypeQuery): void {
+                        if ($this->selectedCollegeType === 'honours') {
+                            $courseTypeQuery
+                                ->whereRaw("LOWER(TRIM(COALESCE(course_type, ''))) LIKE ?", ['%honours%'])
+                                ->orWhereRaw("LOWER(TRIM(COALESCE(course_type, ''))) LIKE ?", ['%honors%'])
+                                ->orWhere('course_type', 'like', '%অনার্স%');
+
+                            return;
+                        }
+
+                        $courseTypeQuery
+                            ->whereRaw("LOWER(TRIM(COALESCE(course_type, ''))) LIKE ?", ['%degree%'])
+                            ->orWhere('course_type', 'like', '%ডিগ্রি%')
+                            ->orWhere('course_type', 'like', '%ডিগ্রী%');
+                    });
+            });
+        }
+
+        return $query;
     }
 
     /**
