@@ -72,6 +72,32 @@ test('dashboard shows college lab and ICT training report totals', function () {
         ->assertSee('বেসরকারি কলেজ');
 });
 
+test('dashboard normalizes imported whitespace and Bengali lab answers', function () {
+    $user = User::factory()->create();
+
+    Teacher::query()->create([
+        'name' => 'First Teacher',
+        'college_code' => ' 1001 ',
+        'has_computer_lab' => ' হ্যাঁ ',
+        'computer_count' => 12,
+        'ict_training_name' => '   ',
+    ]);
+    Teacher::query()->create([
+        'name' => 'Second Teacher',
+        'college_code' => '1001',
+        'has_computer_lab' => ' YES ',
+        'ict_training_name' => 'Digital Content Creation',
+    ]);
+
+    $this->actingAs($user)->get(route('dashboard'))
+        ->assertViewHas('report', fn (array $report): bool => $report['totalColleges'] === 1
+            && $report['collegesWithLab'] === 1
+            && $report['collegesWithoutLab'] === 0
+            && $report['totalComputers'] === 12
+            && $report['teachersWithIctTraining'] === 1
+            && $report['teachersWithoutIctTraining'] === 1);
+});
+
 test('sidebar menu items use icons that match their destinations', function () {
     $sidebar = file_get_contents(resource_path('views/layouts/app/sidebar.blade.php'));
 

@@ -49,7 +49,7 @@ test('training summary lists teachers with an empty ICT training name as without
             'teachersByCollege',
             fn ($teachers): bool => $teachers->flatten(1)->pluck('name')->contains('Teacher Without ICT Training'),
         );
-})->with([null, '']);
+})->with([null, '', '   ', "\t\n"]);
 
 test('teachers without ICT training show their professional details', function () {
     Teacher::query()->create([

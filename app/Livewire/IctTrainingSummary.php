@@ -87,7 +87,7 @@ class IctTrainingSummary extends Component
     {
         return Teacher::select('id', 'college_code', 'college_name', 'name', 'subject', 'ict_training_name', 'other_training_name', 'training_institute')
             ->whereNotNull('ict_training_name')
-            ->where('ict_training_name', '!=', '')
+            ->whereRaw("TRIM(ict_training_name) != ''")
             ->orderBy('college_code')
             ->orderBy('name')
             ->orderBy('id');
@@ -98,7 +98,7 @@ class IctTrainingSummary extends Component
         return Teacher::select('id', 'college_code', 'college_name', 'name', 'subject', 'designation', 'teacher_level', 'employment_type')
             ->where(function (Builder $query): void {
                 $query->whereNull('ict_training_name')
-                    ->orWhere('ict_training_name', '');
+                    ->orWhereRaw("TRIM(ict_training_name) = ''");
             })
             ->orderBy('college_code')
             ->orderBy('name')

@@ -72,16 +72,17 @@ class CollegeLabSummary extends Component
 
     private function collegesQuery(bool $hasLab): Builder
     {
-        $labCondition = "MAX(CASE WHEN LOWER(has_computer_lab) = 'yes' THEN 1 ELSE 0 END)";
+        $labCondition = "MAX(CASE WHEN LOWER(TRIM(COALESCE(has_computer_lab, ''))) IN ('yes', 'হ্যাঁ') THEN 1 ELSE 0 END)";
 
-        return Teacher::select(
-            'college_code',
-            'college_name',
-            DB::raw("{$labCondition} as has_lab"),
-            DB::raw('MAX(computer_count) as total_computers')
-        )
+        return Teacher::selectRaw('TRIM(college_code) as college_code')
+            ->addSelect(
+                DB::raw('MAX(college_name) as college_name'),
+                DB::raw("{$labCondition} as has_lab"),
+                DB::raw('MAX(computer_count) as total_computers')
+            )
             ->whereNotNull('college_code')
-            ->groupBy('college_code', 'college_name')
+            ->whereRaw("TRIM(college_code) != ''")
+            ->groupByRaw('TRIM(college_code)')
             ->havingRaw("{$labCondition} = ?", [$hasLab ? 1 : 0])
             ->orderBy('college_code');
     }
